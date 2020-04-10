@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="DijkstraAlgorithm.EdgeCostTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DijkstraAlgorithm"
+             mc:Ignorable="d" Height="22">
+	<TextBox x:Name="costTextBox" Height="23" Text="0" Background="#3FFFFFFF" MaxLines="1" MaxLength="10" ManipulationCompleted="textBox_ManipulationCompleted" LostKeyboardFocus="textBox_LostKeyboardFocus" KeyDown="textBox_KeyDown" PreviewMouseDoubleClick="textBox_PreviewMouseDoubleClick" TextChanged="textBox_TextChanged" Focusable="False" HorizontalContentAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,0,-1" MouseDown="costTextBox_MouseDown"/>
+</UserControl>

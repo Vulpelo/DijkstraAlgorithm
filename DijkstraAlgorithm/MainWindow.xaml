@@ -1,0 +1,42 @@
+﻿<Window x:Class="DijkstraAlgorithm.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DijkstraAlgorithm"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="424.042" Width="531.383">
+	<Grid AllowDrop="True" RenderTransformOrigin="0.5,0.5">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="190*" />
+			<ColumnDefinition Width="333*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="28*" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+		<Button x:Name="addNodeButton" Content="Add node" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="11,39,0,0" Height="20" RenderTransformOrigin="0.5,0.5" Click="addNode_button_Click"/>
+		<Button x:Name="addEdgeButton" Content="Add edge" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="105,39,0,0" Height="20" Click="addEdge_buttonClick"/>
+		<Button x:Name="removeButton" Content="Remove" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="59,89,0,0" Height="20" Click="remove_ButtonClicked"/>
+
+		<Canvas Name="MainCanvas" Margin="6,10,10,0" Background="#FF71DEFF" Grid.Column="1" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" AllowDrop="True"/>
+		<Button x:Name="button2" Content="Calculate" Margin="59,160,0,0" VerticalAlignment="Top" Height="20" Click="calculateButtonClick" Width="75" HorizontalAlignment="Left"/>
+		<Button x:Name="button3" Content="Next" HorizontalAlignment="Left" Margin="105,185,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+		<Button x:Name="button4" Content="Previous" HorizontalAlignment="Left" Margin="11,185,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+		<Button x:Name="button5" Content="Generate" HorizontalAlignment="Left" Margin="59,261,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+		<Label x:Name="label" Content="Graph generator" Margin="11,230,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" Height="26" HorizontalAlignment="Left" Width="169"/>
+		<Label x:Name="label_Copy" Content="Simulate" Margin="10,129,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" Height="26" HorizontalAlignment="Left" Width="170"/>
+		<Label x:Name="label_Copy1" Content="Edit" Margin="10,10,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" Height="24" HorizontalAlignment="Left" Width="170"/>
+		<Button x:Name="addNodeButton_Copy" Content="Start node" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="11,64,0,0" Height="20" RenderTransformOrigin="0.5,0.5" Click="addNode_button_Click"/>
+		<Button x:Name="addEdgeButton_Copy" Content="End node" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="105,64,0,0" Height="20" Click="addEdge_buttonClick"/>
+		<TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="60,286,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="120"/>
+		<TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="60,314,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="120"/>
+		<Label x:Name="label1" Content="Nodes" HorizontalAlignment="Left" Margin="8,282,0,0" VerticalAlignment="Top" Height="23"/>
+		<Label x:Name="label1_Copy" Content="Edges" HorizontalAlignment="Left" Margin="10,310,0,0" VerticalAlignment="Top" Height="27"/>
+		<Label x:Name="label1_Copy1" Content="Cost" HorizontalAlignment="Left" Margin="10,342,0,0" VerticalAlignment="Top" Height="27"/>
+		<TextBox x:Name="textBox1_Copy" HorizontalAlignment="Left" Height="23" Margin="60,342,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="52"/>
+		<TextBox x:Name="textBox1_Copy1" HorizontalAlignment="Left" Height="23" Margin="129,342,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="51"/>
+		<Label x:Name="label1_Copy2" Content="-" HorizontalAlignment="Left" Margin="112,338,0,0" VerticalAlignment="Top" Height="23" Width="17" HorizontalContentAlignment="Center"/>
+	</Grid>
+</Window>
