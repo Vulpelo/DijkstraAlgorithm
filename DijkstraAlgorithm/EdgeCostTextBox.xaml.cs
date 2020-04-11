@@ -27,17 +27,6 @@ namespace DijkstraAlgorithm
             InitializeComponent();
         }
 
-        private void textBox_ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
-        {
-            int a = 0;
-
-        }
-
-        private void textBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            int a = 0;
-
-        }
         private void textBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -62,7 +51,7 @@ namespace DijkstraAlgorithm
         {
             if (Master.actualMode == Mode.REMOVE)
             {
-                edge.removeLineSegment();
+                edge.destroy();
             }
         }
     }

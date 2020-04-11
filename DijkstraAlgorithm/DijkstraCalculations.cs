@@ -8,9 +8,18 @@ namespace DijkstraAlgorithm
 {
     class DijkstraCalculations
     {
-        List<EdgeElement> edges = new List<EdgeElement>();
+        List<Node> nodes;
 
         Memento.MementoCollection nodeCollection = new Memento.MementoCollection();
+
+        public DijkstraCalculations()
+        {
+
+        }
+        public DijkstraCalculations(List<Node> nodes)
+        {
+            this.nodes = nodes;
+        }
 
         public void calculate()
         {
@@ -29,9 +38,9 @@ namespace DijkstraAlgorithm
 
         private void saveState()
         {
-            foreach (EdgeElement edge in edges)
+            foreach (Node node in nodes)
             {
-
+                nodeCollection.saveState(node);
             }
         }
     }

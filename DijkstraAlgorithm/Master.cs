@@ -20,12 +20,14 @@ namespace DijkstraAlgorithm
     {
         static public MainWindow window { get; set; } = null;
 
-        static Node nodeFrom = null;
-        static Node nodeTo = null;
-
-        static List<EdgeElement> edges = new List<EdgeElement>();
         static Canvas mainCanvas = null;
-        static List<NodeElement> nodes = new List<NodeElement>();
+
+        static NodeElement nodeFrom = null;
+        static NodeElement nodeTo = null;
+
+        static List<Node> nodes = new List<Node>();
+
+        //static List<EdgeElement> edges = new List<EdgeElement>();
 
 
         static public DependencyObject getTemplate(String name)
@@ -35,7 +37,7 @@ namespace DijkstraAlgorithm
         static private Mode _actualMode = Mode.NONE;
         static public Mode actualMode { get { return _actualMode; } set { _actualMode = value; resetOnModeChange(); } }
 
-        static public void creatingEdge(Node node)
+        static public void creatingEdge(NodeElement node)
         {
             if (nodeFrom == null)
             {
@@ -44,7 +46,8 @@ namespace DijkstraAlgorithm
             } else if (nodeFrom != node)
             {
                 nodeTo = node;
-                addEdge(nodeFrom, nodeTo);
+                nodeFrom.addEdge(nodeTo);
+
                 nodeFrom = null;
                 nodeTo = null;
             }
@@ -56,42 +59,44 @@ namespace DijkstraAlgorithm
             nodeTo = null;
         }
 
-        static private void addEdge(Node fromNode, Node toNode)
-        {
-            EdgeElement edge = new EdgeElement(fromNode, toNode);
-            edge.createLineSegment(Master.mainCanvas);
-            edges.Add(edge);
-        }
-
         static public void setMainCanvas(Canvas mainCanvas)
         {
             Master.mainCanvas = mainCanvas;
         }
 
-        static public void removeNode(NodeElement node)
+        static public void removeNode(Node node)
         {
-            mainCanvas.Children.Remove(node.getModel());
+            foreach (Node n in node.targets)
+            {
+                n.targets.Remove(node);
+            }
             nodes.Remove(node);
         }
 
-        static public void addNode(NodeElement node)
+        static public void addNode(Node node)
         {
-            mainCanvas.Children.Add(node.getModel());
             nodes.Add(node);
         }
 
-        static public List<EdgeElement> getEdgesForNode(Node node)
+        static public void removeEdge(Node from, Node to)
         {
-            List<EdgeElement> edgesFromNode = new List<EdgeElement>();
-
-            foreach (EdgeElement edge in edges)
+            for (int i = 0; i < nodes.Count; i++)
             {
-                if(edge.edge.fromNode == node)
+                if (nodes[i] == from)
                 {
-                    edgesFromNode.Add(edge);
+                    for (int j = 0; j < nodes[i].targets.Count; j++)
+                    {
+                        if (nodes[i].targets[j] == to)
+                        {
+                            nodes[i].targets[j].targets.Remove(from);
+                            nodes[i].targets.Remove(to);
+                            break;
+                        }
+                    }
+                    break;
                 }
             }
-            return edgesFromNode;
         }
+
     }
 }

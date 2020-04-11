@@ -22,7 +22,7 @@ namespace DijkstraAlgorithm.Memento
             return false;
         }
 
-        public void add(MementoState state)
+        private void add(MementoState state)
         {
             mementos.Add(new Memento(state));
         }

@@ -11,16 +11,21 @@ namespace DijkstraAlgorithm
 {
     public class EdgeElement
     {
+        Canvas canvas = null;
         public Edge edge { get; set; }
 
         System.Windows.Shapes.Line line = null;
         EdgeCostTextBox edgeCostTextBox = null;
 
-        Canvas canvas = null;
+        NodeElement fromNodeElement;
+        NodeElement toNodeElement;
 
-        public EdgeElement(Node from, Node to)
+
+        public EdgeElement(NodeElement from, NodeElement to)
         {
-            edge = new Edge(from, to);
+            fromNodeElement = from;
+            toNodeElement = to;
+            edge = new Edge(from.node, to.node);
         }
 
         public void createLineSegment(Canvas canvas)
@@ -58,12 +63,20 @@ namespace DijkstraAlgorithm
             }
         }
 
-        public void removeLineSegment()
+        private void removeLineSegment()
         {
             canvas.Children.Remove(line);
             canvas.Children.Remove(edgeCostTextBox);
             line = null;
             edgeCostTextBox = null;
+        }
+
+        public void destroy()
+        {
+            fromNodeElement.removeEdge(this);
+            toNodeElement.removeEdge(this);
+            Master.removeEdge(edge.fromNode, edge.toNode);
+            removeLineSegment();
         }
     }
 }

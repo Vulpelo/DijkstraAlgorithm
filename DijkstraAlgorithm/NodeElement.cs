@@ -12,23 +12,24 @@ namespace DijkstraAlgorithm
 {
     public class NodeElement
     {
-        Node node;
-        static int _nodeId = 0;
+        public Node node { get; private set; }
         Button model = null;
 
-        public NodeElement(Point position)
+        List<EdgeElement> edges = new List<EdgeElement>();
+        Node nodeFrom = null;
+        Node nodeTo = null;
+
+        public NodeElement(Node _node)
         {
-            node = new Node();
-            node.id = _nodeId++;
-            node.position = position;
+            node = _node;
 
             model = new Button();
             model.Click += nodeWasClicked;
             model.Width = 40;
             model.Height = 40;
 
-            model.SetValue(Canvas.LeftProperty, position.X - model.Width/2);
-            model.SetValue(Canvas.TopProperty, position.Y - model.Height/2);
+            model.SetValue(Canvas.LeftProperty, node.position.X - model.Width/2);
+            model.SetValue(Canvas.TopProperty, node.position.Y - model.Height/2);
             model.Content = node.id.ToString();
 
             model.AllowDrop = true;
@@ -45,15 +46,65 @@ namespace DijkstraAlgorithm
             canvas.Children.Add(model);
         }
 
+        public void removeFromCanvas(Canvas canvas)
+        {
+            Master.window.MainCanvas.Children.Remove(getModel());
+        }
+
         public void nodeWasClicked(object sender, RoutedEventArgs e)
         {
             if (Master.actualMode == Mode.ADD_EDGE)
             {
-                Master.creatingEdge(this.node);
+                Master.creatingEdge(this);
+
             } else if (Master.actualMode == Mode.REMOVE)
             {
-                Master.removeNode(this);
+                destroy();
             }
+        }
+
+        public void removeEdge(EdgeElement edgeElement)
+        {
+            edges.Remove(edgeElement);
+        }
+
+        public void addEdge(NodeElement toNode)
+        {
+            if (!hasEdge(this, toNode))
+            {
+                EdgeElement edge = new EdgeElement(this, toNode);
+                edge.createLineSegment(Master.window.MainCanvas);
+                edges.Add(edge);
+
+                toNode.addEdge(edge);
+                addEdge(edge);
+            }
+        }
+
+        private bool hasEdge(NodeElement from, NodeElement to)
+        {
+            // TODO: has such edge this<->toNode
+            return false;
+        }
+
+        public void addEdge(EdgeElement edgeElement)
+        {
+            this.node.targets.Add( 
+                edgeElement.edge.fromNode == this.node ?
+                edgeElement.edge.toNode : edgeElement.edge.fromNode);
+
+            edges.Add(edgeElement);
+        }
+
+        public void destroy()
+        {
+            while (edges.Count > 0)
+            {
+                edges[0].destroy();
+            }
+            removeFromCanvas(Master.window.MainCanvas);
+            Master.removeNode(this.node);
+            Master.window.removeNodeElement(this);
         }
     }
 }

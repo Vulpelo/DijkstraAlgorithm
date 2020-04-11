@@ -8,11 +8,14 @@ using System.Windows.Shapes;
 
 namespace DijkstraAlgorithm
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<NodeElement> nodeElements = new List<NodeElement>();
+
         System.Windows.Media.Brush selectedColor = System.Windows.Media.Brushes.Gray;
         System.Windows.Media.Brush unselectedColor = System.Windows.Media.Brushes.LightGray;
 
@@ -32,8 +35,12 @@ namespace DijkstraAlgorithm
         {
             if (Master.actualMode == Mode.ADD_NODE)
             {
-                NodeElement node = new NodeElement(e.GetPosition(MainCanvas));
+                Node node = new Node(e.GetPosition(MainCanvas));
                 Master.addNode(node);
+
+                NodeElement nodeElement = new NodeElement(node);
+                nodeElement.addToCanvas(MainCanvas);
+                nodeElements.Add(nodeElement);
             }
         }
 
@@ -48,10 +55,17 @@ namespace DijkstraAlgorithm
             Button b = sender as Button;
             switchEditMode(Mode.ADD_EDGE, b);
         }
+
         private void remove_ButtonClicked(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
             switchEditMode(Mode.REMOVE, b);
+        }
+
+
+        public void removeNodeElement(NodeElement nodeElement)
+        {
+            nodeElements.Remove(nodeElement);
         }
 
         private void switchEditMode(Mode newMode, Button button)
@@ -74,26 +88,6 @@ namespace DijkstraAlgorithm
             addNodeButton.Background = unselectedColor;
             addEdgeButton.Background = unselectedColor;
             removeButton.Background = unselectedColor;
-        }
-
-        private void textBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                (sender as TextBox).Focusable = false;
-                (sender as TextBox).CaretBrush = System.Windows.Media.Brushes.Transparent;
-            }
-        }
-
-        private void textBox_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            (sender as TextBox).Focusable = true;
-            (sender as TextBox).CaretBrush = System.Windows.Media.Brushes.Black;
-        }
-
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
 
         private void calculateButtonClick(object sender, RoutedEventArgs e)
