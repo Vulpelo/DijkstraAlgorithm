@@ -71,6 +71,13 @@ namespace DijkstraAlgorithm
             edgeCostTextBox = null;
         }
 
+        public void setEdgeCost(int cost)
+        {
+            fromNodeElement.node.targets[toNodeElement.node] = cost;
+            toNodeElement.node.targets[fromNodeElement.node] = cost;
+            edge.cost = cost;
+        }
+
         public void destroy()
         {
             fromNodeElement.removeEdge(this);

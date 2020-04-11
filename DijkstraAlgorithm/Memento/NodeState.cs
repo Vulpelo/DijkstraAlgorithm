@@ -10,12 +10,14 @@ namespace DijkstraAlgorithm.Memento
     {
         int id;
         int costValue;
+        NodeSearchState searchState;
 
         public object getSave()
         {
             Node node = new Node();
             node.id = id;
             node.costValue = costValue;
+            node.searchState = searchState;
             return node;
         }
 
@@ -26,6 +28,7 @@ namespace DijkstraAlgorithm.Memento
             {
                 id = n.id;
                 costValue = n.costValue;
+                searchState = n.searchState;
             }
         }
     }

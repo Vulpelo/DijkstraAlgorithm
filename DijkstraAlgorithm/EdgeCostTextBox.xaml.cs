@@ -44,7 +44,7 @@ namespace DijkstraAlgorithm
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            edge.edge.cost = int.Parse( ((TextBox)sender).Text );
+            edge.setEdgeCost( int.Parse( ((TextBox)sender).Text ) );
         }
 
         private void costTextBox_MouseDown(object sender, MouseButtonEventArgs e)

@@ -12,6 +12,10 @@ namespace DijkstraAlgorithm
 {
     public class NodeElement
     {
+        System.Windows.Media.Brush startNodeBorderColor = System.Windows.Media.Brushes.LimeGreen;
+        System.Windows.Media.Brush endNodeBorderColor = System.Windows.Media.Brushes.Red;
+        System.Windows.Media.Brush normalNodeBorderColor = System.Windows.Media.Brushes.Gray;
+
         public Node node { get; private set; }
         Button model = null;
 
@@ -27,10 +31,12 @@ namespace DijkstraAlgorithm
             model.Click += nodeWasClicked;
             model.Width = 40;
             model.Height = 40;
-
             model.SetValue(Canvas.LeftProperty, node.position.X - model.Width/2);
             model.SetValue(Canvas.TopProperty, node.position.Y - model.Height/2);
             model.Content = node.id.ToString();
+            model.BorderThickness = new Thickness(2);
+
+            normalNodeBorderColor = model.BorderBrush;
 
             model.AllowDrop = true;
         }
@@ -60,6 +66,17 @@ namespace DijkstraAlgorithm
             } else if (Master.actualMode == Mode.REMOVE)
             {
                 destroy();
+            } else if (Master.actualMode == Mode.START_NODE)
+            {
+                Master.window.resetStartNode();
+                setNodeType(NodeType.START);
+                //node.nodeType = NodeType.START;
+            }
+            else if (Master.actualMode == Mode.END_NODE)
+            {
+                Master.window.resetEndNode();
+                setNodeType(NodeType.END);
+                //node.nodeType = NodeType.END;
             }
         }
 
@@ -89,10 +106,6 @@ namespace DijkstraAlgorithm
 
         public void addEdge(EdgeElement edgeElement)
         {
-            this.node.targets.Add( 
-                edgeElement.edge.fromNode == this.node ?
-                edgeElement.edge.toNode : edgeElement.edge.fromNode);
-
             edges.Add(edgeElement);
         }
 
@@ -105,6 +118,29 @@ namespace DijkstraAlgorithm
             removeFromCanvas(Master.window.MainCanvas);
             Master.removeNode(this.node);
             Master.window.removeNodeElement(this);
+        }
+
+        public void setNodeType(NodeType type)
+        {
+            node.nodeType = type;
+
+            switch (type)
+            {
+                case NodeType.START:
+                    getModel().BorderBrush = startNodeBorderColor;
+                    break;
+                case NodeType.NORMAL:
+                    getModel().BorderBrush = normalNodeBorderColor;
+                    break;
+                case NodeType.END:
+                    getModel().BorderBrush = endNodeBorderColor;
+                    break;
+            }
+        }
+
+        public NodeType getNodeType()
+        {
+            return node.nodeType;
         }
     }
 }

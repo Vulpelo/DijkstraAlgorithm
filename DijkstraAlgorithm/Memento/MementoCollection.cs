@@ -8,33 +8,45 @@ namespace DijkstraAlgorithm.Memento
 {
     public class MementoCollection
     {
-        List<Memento> mementos = new List<Memento>();
+        //List<Memento> mementos = new List<Memento>();
+        List<List<Memento>> mementosPhases = new List<List<Memento>>();
 
-        public bool saveState(object obj)
+        public bool savePhase(IEnumerable<object> objs)
+        {
+            mementosPhases.Add(new List<Memento>());
+
+            foreach (object obj in objs)
+            {
+                saveState(obj, mementosPhases.Count - 1);
+            }
+            return true;
+        }
+
+        private bool saveState(object obj, int index)
         {
             if (((Node) obj) != null)
             {
                 MementoState st = new NodeState();
                 st.setSave(obj);
-                add(st);
+                add(st, index);
                 return true;
             }
             return false;
         }
 
-        private void add(MementoState state)
+        private void add(MementoState state, int index)
         {
-            mementos.Add(new Memento(state));
+            mementosPhases[index].Add(new Memento(state));
         }
 
-        public List<Memento> getMementos()
+        public List<Memento> getMementosPhase()
         {
-            return mementos;
+            return mementosPhases[0];
         }
 
-        public void remove(int index)
+        public void removePhase(int index)
         {
-            mementos.RemoveAt(index);
+            mementosPhases.RemoveAt(index);
         }
     }
 }

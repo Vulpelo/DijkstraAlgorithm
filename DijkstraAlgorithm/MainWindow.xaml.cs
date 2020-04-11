@@ -68,6 +68,30 @@ namespace DijkstraAlgorithm
             nodeElements.Remove(nodeElement);
         }
 
+        public void resetStartNode()
+        {
+            foreach (NodeElement n in nodeElements)
+            {
+                if (n.getNodeType() == NodeType.START)
+                {
+                    n.setNodeType(NodeType.NORMAL);
+                    break;
+                }
+            }
+        }
+
+        public void resetEndNode()
+        {
+            foreach (NodeElement n in nodeElements)
+            {
+                if (n.getNodeType() == NodeType.END)
+                {
+                    n.setNodeType(NodeType.NORMAL);
+                    break;
+                }
+            }
+        }
+
         private void switchEditMode(Mode newMode, Button button)
         {
             if (Master.actualMode == newMode)
@@ -88,12 +112,50 @@ namespace DijkstraAlgorithm
             addNodeButton.Background = unselectedColor;
             addEdgeButton.Background = unselectedColor;
             removeButton.Background = unselectedColor;
+            setStartNodeButton.Background = unselectedColor;
+            setEndNodeButton.Background = unselectedColor;
         }
 
         private void calculateButtonClick(object sender, RoutedEventArgs e)
         {
-            DijkstraCalculations dc = new DijkstraCalculations();
-            dc.calculate();
+            DijkstraCalculations dc = new DijkstraCalculations(getDataNodes());
+            NodeElement start = getFirstNodeByType(NodeType.START);
+            NodeElement end = getFirstNodeByType(NodeType.END);
+            dc.calculate(start.node, end.node);
+        }
+
+        private NodeElement getFirstNodeByType(NodeType type)
+        {
+            foreach (NodeElement ne in nodeElements)
+            {
+                if (ne.getNodeType() == type)
+                {
+                    return ne;
+                }
+            }
+            return null;
+        }
+
+        private List<Node> getDataNodes()
+        {
+            List<Node> dataNodes = new List<Node>();
+            foreach (NodeElement nodeElement in nodeElements)
+            {
+                dataNodes.Add(nodeElement.node);
+            }
+            return dataNodes;
+        }
+
+        private void setStartNodeButtonClick(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            switchEditMode(Mode.START_NODE, b);
+        }
+
+        private void setEndNodeButtonClick(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            switchEditMode(Mode.END_NODE, b);
         }
     }
 }

@@ -28,8 +28,8 @@
 		<Label x:Name="label" Content="Graph generator" Margin="11,230,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" Height="26" HorizontalAlignment="Left" Width="169"/>
 		<Label x:Name="label_Copy" Content="Simulate" Margin="10,129,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" Height="26" HorizontalAlignment="Left" Width="170"/>
 		<Label x:Name="label_Copy1" Content="Edit" Margin="10,10,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" Height="24" HorizontalAlignment="Left" Width="170"/>
-		<Button x:Name="addNodeButton_Copy" Content="Start node" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="11,64,0,0" Height="20" RenderTransformOrigin="0.5,0.5" Click="addNode_button_Click"/>
-		<Button x:Name="addEdgeButton_Copy" Content="End node" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="105,64,0,0" Height="20" Click="addEdge_buttonClick"/>
+		<Button x:Name="setStartNodeButton" Content="Start node" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="11,64,0,0" Height="20" RenderTransformOrigin="0.5,0.5" Click="setStartNodeButtonClick"/>
+		<Button x:Name="setEndNodeButton" Content="End node" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="105,64,0,0" Height="20" Click="setEndNodeButtonClick"/>
 		<TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="60,286,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="120"/>
 		<TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="60,314,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="120"/>
 		<Label x:Name="label1" Content="Nodes" HorizontalAlignment="Left" Margin="8,282,0,0" VerticalAlignment="Top" Height="23"/>

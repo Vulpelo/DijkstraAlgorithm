@@ -13,7 +13,9 @@ namespace DijkstraAlgorithm
         NONE,
         ADD_NODE,
         ADD_EDGE,
-        REMOVE
+        REMOVE,
+        START_NODE,
+        END_NODE
     }
 
     static class Master
@@ -66,7 +68,7 @@ namespace DijkstraAlgorithm
 
         static public void removeNode(Node node)
         {
-            foreach (Node n in node.targets)
+            foreach (Node n in node.targets.Keys)
             {
                 n.targets.Remove(node);
             }
@@ -84,11 +86,11 @@ namespace DijkstraAlgorithm
             {
                 if (nodes[i] == from)
                 {
-                    for (int j = 0; j < nodes[i].targets.Count; j++)
+                    foreach (Node t in nodes[i].targets.Keys)
                     {
-                        if (nodes[i].targets[j] == to)
+                        if (t == to)
                         {
-                            nodes[i].targets[j].targets.Remove(from);
+                            t.targets.Remove(from);
                             nodes[i].targets.Remove(to);
                             break;
                         }
@@ -97,6 +99,5 @@ namespace DijkstraAlgorithm
                 }
             }
         }
-
     }
 }
