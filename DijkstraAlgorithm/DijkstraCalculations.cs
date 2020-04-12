@@ -32,21 +32,24 @@ namespace DijkstraAlgorithm
                 actual.searchState = NodeSearchState.ACTUAL;
                 nodeCollection.savePhase(nodes);
 
-                Node bestNode = actual.targets.Count == 0 ? null : actual.targets.Keys.First<Node>();
+                Node bestNode = null;
                 
                 foreach (Node n in actual.targets.Keys)
                 {
-                    // calculate
-                    int newCost = actual.targets[n] + actual.costValue;
-                    if (n.costValue > newCost)
+                    if (n.searchState == NodeSearchState.NOT_USED)
                     {
-                        n.costValue = newCost;
-                    }
+                        // calculate
+                        int newCost = actual.targets[n] + actual.costValue;
+                        if (n.costValue > newCost)
+                        {
+                            n.costValue = newCost;
+                        }
 
-                    // select
-                    if (n.costValue < bestNode.costValue)
-                    {
-                        bestNode = n;
+                        // select
+                        if (bestNode == null || n.costValue < bestNode.costValue)
+                        {
+                            bestNode = n;
+                        }
                     }
                 }
                 actual.searchState = NodeSearchState.USED;
@@ -66,19 +69,32 @@ namespace DijkstraAlgorithm
             }
         }
 
-        public void nextStep()
-        {
-
-        }
-
-        public void prevStep()
-        {
-
-        }
-
         private void savePhaseState()
         {
             nodeCollection.savePhase(nodes);
+        }
+
+        public void loadPhaseState(int index)
+        {
+            List<Memento.Memento> newNodes_states = nodeCollection.getMementosPhase(index);
+            if (newNodes_states != null)
+            {
+                for (int i=0; i < newNodes_states.Count; i++)
+                {
+                    Node newNode = (Node)newNodes_states[i].getState().getSave();
+                    if (newNode != null)
+                    {
+                        nodes[i].id = newNode.id;
+                        nodes[i].searchState = newNode.searchState;
+                        nodes[i].costValue = newNode.costValue;
+                    }
+                }
+            }
+        }
+
+        public int amountOfCalculationSteps()
+        {
+            return nodeCollection.amountOfMementosPhases();
         }
     }
 }

@@ -39,14 +39,23 @@ namespace DijkstraAlgorithm.Memento
             mementosPhases[index].Add(new Memento(state));
         }
 
-        public List<Memento> getMementosPhase()
+        public List<Memento> getMementosPhase(int index)
         {
-            return mementosPhases[0];
+            if (mementosPhases.Count > index && index >= 0)
+            {
+                return mementosPhases[index];
+            }
+            return null;
         }
 
         public void removePhase(int index)
         {
             mementosPhases.RemoveAt(index);
+        }
+
+        public int amountOfMementosPhases()
+        {
+            return mementosPhases.Count;
         }
     }
 }

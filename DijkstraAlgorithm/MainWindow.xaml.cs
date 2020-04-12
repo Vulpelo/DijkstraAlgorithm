@@ -15,6 +15,8 @@ namespace DijkstraAlgorithm
     public partial class MainWindow : Window
     {
         List<NodeElement> nodeElements = new List<NodeElement>();
+        DijkstraCalculations dc;
+        int currentCalculateIndex = 0;
 
         System.Windows.Media.Brush selectedColor = System.Windows.Media.Brushes.Gray;
         System.Windows.Media.Brush unselectedColor = System.Windows.Media.Brushes.LightGray;
@@ -118,10 +120,13 @@ namespace DijkstraAlgorithm
 
         private void calculateButtonClick(object sender, RoutedEventArgs e)
         {
-            DijkstraCalculations dc = new DijkstraCalculations(getDataNodes());
+            currentCalculateIndex = 0;
+            dc = new DijkstraCalculations(getDataNodes());
             NodeElement start = getFirstNodeByType(NodeType.START);
             NodeElement end = getFirstNodeByType(NodeType.END);
             dc.calculate(start.node, end.node);
+
+            changeCalculationPhase(0);
         }
 
         private NodeElement getFirstNodeByType(NodeType type)
@@ -156,6 +161,32 @@ namespace DijkstraAlgorithm
         {
             Button b = sender as Button;
             switchEditMode(Mode.END_NODE, b);
+        }
+
+        private void previousButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (currentCalculateIndex > 0) currentCalculateIndex--;
+            changeCalculationPhase(currentCalculateIndex);
+        }
+
+        private void nextButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (++currentCalculateIndex >= dc.amountOfCalculationSteps()) currentCalculateIndex--;
+            changeCalculationPhase(currentCalculateIndex);
+        }
+
+        private void updateNodes()
+        {
+            foreach (NodeElement nElem in nodeElements)
+            {
+                nElem.updateRenderChanges();
+            }
+        }
+
+        private void changeCalculationPhase(int index)
+        {
+            dc.loadPhaseState(index);
+            updateNodes();
         }
     }
 }

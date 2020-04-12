@@ -22,8 +22,8 @@
 
 		<Canvas Name="MainCanvas" Margin="6,10,10,0" Background="#FF71DEFF" Grid.Column="1" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" AllowDrop="True"/>
 		<Button x:Name="button2" Content="Calculate" Margin="59,160,0,0" VerticalAlignment="Top" Height="20" Click="calculateButtonClick" Width="75" HorizontalAlignment="Left"/>
-		<Button x:Name="button3" Content="Next" HorizontalAlignment="Left" Margin="105,185,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
-		<Button x:Name="button4" Content="Previous" HorizontalAlignment="Left" Margin="11,185,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+		<Button x:Name="button3" Content="Next" HorizontalAlignment="Left" Margin="105,185,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="nextButtonClick"/>
+		<Button x:Name="button4" Content="Previous" HorizontalAlignment="Left" Margin="11,185,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="previousButtonClick"/>
 		<Button x:Name="button5" Content="Generate" HorizontalAlignment="Left" Margin="59,261,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
 		<Label x:Name="label" Content="Graph generator" Margin="11,230,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" Height="26" HorizontalAlignment="Left" Width="169"/>
 		<Label x:Name="label_Copy" Content="Simulate" Margin="10,129,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" Height="26" HorizontalAlignment="Left" Width="170"/>

@@ -16,12 +16,14 @@ namespace DijkstraAlgorithm
         System.Windows.Media.Brush endNodeBorderColor = System.Windows.Media.Brushes.Red;
         System.Windows.Media.Brush normalNodeBorderColor = System.Windows.Media.Brushes.Gray;
 
+        System.Windows.Media.Brush usedNodeBgColor = System.Windows.Media.Brushes.IndianRed;
+        System.Windows.Media.Brush actualNodeBgColor = System.Windows.Media.Brushes.LightBlue;
+        System.Windows.Media.Brush notUsedNodeBgColor = System.Windows.Media.Brushes.Gray;
+
         public Node node { get; private set; }
         Button model = null;
 
         List<EdgeElement> edges = new List<EdgeElement>();
-        Node nodeFrom = null;
-        Node nodeTo = null;
 
         public NodeElement(Node _node)
         {
@@ -37,6 +39,7 @@ namespace DijkstraAlgorithm
             model.BorderThickness = new Thickness(2);
 
             normalNodeBorderColor = model.BorderBrush;
+            notUsedNodeBgColor = model.Background;
 
             model.AllowDrop = true;
         }
@@ -141,6 +144,29 @@ namespace DijkstraAlgorithm
         public NodeType getNodeType()
         {
             return node.nodeType;
+        }
+
+        public void setSearchState(NodeSearchState searchState)
+        {
+            node.searchState = searchState;
+            switch (searchState)
+            {
+                case NodeSearchState.ACTUAL:
+                    getModel().Background = actualNodeBgColor;
+                    break;
+                case NodeSearchState.NOT_USED:
+                    getModel().Background = notUsedNodeBgColor;
+                    break;
+                case NodeSearchState.USED:
+                    getModel().Background = usedNodeBgColor;
+                    break;
+            }
+        }
+
+        public void updateRenderChanges()
+        {
+            setNodeType(node.nodeType);
+            setSearchState(node.searchState);
         }
     }
 }
