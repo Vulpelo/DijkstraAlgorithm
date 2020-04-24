@@ -124,9 +124,11 @@ namespace DijkstraAlgorithm
             dc = new DijkstraCalculations(getDataNodes());
             NodeElement start = getFirstNodeByType(NodeType.START);
             NodeElement end = getFirstNodeByType(NodeType.END);
-            dc.calculate(start.node, end.node);
-
-            changeCalculationPhase(0);
+            if (end != null && start != null)
+            {
+                dc.calculate(start.node, end.node);
+                changeCalculationPhase(0);
+            }
         }
 
         private NodeElement getFirstNodeByType(NodeType type)
@@ -187,6 +189,97 @@ namespace DijkstraAlgorithm
         {
             dc.loadPhaseState(index);
             updateNodes();
+        }
+
+        private void generateButtonClicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int nodesAmount = int.Parse(nodesTextBox.Text);
+                int edgesAmount = int.Parse(edgesTextBox.Text);
+                int costFrom = int.Parse(costFromTextBox.Text);
+                int costTo = int.Parse(costToTextBox.Text);
+
+                removeNodeElements();
+
+                GraphGenerator gGenerator = new GraphGenerator();
+                List<Node> genNodes = gGenerator.generate(nodesAmount, edgesAmount, costFrom, costTo);
+
+                setCircularNodePositions(genNodes);
+
+                createNodeElements(genNodes);
+                createEdgeElements(genNodes);
+                int sa = 02;
+            } catch (FormatException except)
+            {
+                Console.WriteLine(except.Source);
+            }
+        }
+
+        private void createEdgeElements(List<Node> nodes)
+        {
+            for (int i = 0; i < nodeElements.Count; i++)
+            {
+                List<Node> nl = new List<Node>(nodeElements[i].node.targets.Keys);
+                for (int j = 0; j < nl.Count; j++) 
+                {
+                    nodeElements[i].addEdge( getNodeElementWithNode( nl[j]) );
+                }
+            }
+        }
+
+        private NodeElement getNodeElementWithNode(Node node)
+        {
+            foreach (NodeElement ne in nodeElements)
+            {
+                if (ne.node == node)
+                {
+                    return ne;
+                }
+            }
+            return null;
+        }
+
+
+        private void setCircularNodePositions(List<Node> nodes)
+        {
+            float radious = 150.0f;
+            System.Windows.Point middle = new System.Windows.Point(200,200);
+            double jumpAngle = Math.PI * 2 / nodes.Count;
+
+            for (int i=0; i<nodes.Count; i++)
+            {
+                double xoff = Math.Sin(jumpAngle * i);
+                double yoff = Math.Cos(jumpAngle * i);
+
+                nodes[i].position = new System.Windows.Point(xoff * radious + middle.X, yoff * radious + middle.Y);
+            }
+
+        }
+
+        private void removeNodeElements()
+        {
+            while(nodeElements.Count > 0)
+            {
+                nodeElements[0].destroy();
+            }
+            nodeElements.Clear();
+            Node.resetIDs();
+        }
+
+        private void createNodeElements(List<Node> nodes)
+        {
+            foreach(Node node in nodes)
+            {
+                NodeElement el = new NodeElement(node);
+                el.addToCanvas(MainCanvas);
+                nodeElements.Add(el);
+            }
+        }
+
+        private void clearButtonClicked(object sender, RoutedEventArgs e)
+        {
+            removeNodeElements();
         }
     }
 }

@@ -63,6 +63,10 @@ namespace DijkstraAlgorithm
             }
         }
 
+        public bool connectedTo(NodeElement node)
+        {
+            return (fromNodeElement == node || toNodeElement == node);
+        }
         private void removeLineSegment()
         {
             canvas.Children.Remove(line);
@@ -76,6 +80,11 @@ namespace DijkstraAlgorithm
             fromNodeElement.node.targets[toNodeElement.node] = cost;
             toNodeElement.node.targets[fromNodeElement.node] = cost;
             edge.cost = cost;
+        }
+
+        public int getEdgeCost()
+        {
+            return fromNodeElement.node.targets[toNodeElement.node];
         }
 
         public void destroy()

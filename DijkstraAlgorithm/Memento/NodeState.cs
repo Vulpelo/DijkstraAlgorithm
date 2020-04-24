@@ -11,6 +11,7 @@ namespace DijkstraAlgorithm.Memento
         int id;
         int costValue;
         NodeSearchState searchState;
+        int costValueCompare;
 
         public object getSave()
         {
@@ -18,6 +19,7 @@ namespace DijkstraAlgorithm.Memento
             node.id = id;
             node.costValue = costValue;
             node.searchState = searchState;
+            node.costValueCompareTo = costValueCompare;
             return node;
         }
 
@@ -29,6 +31,7 @@ namespace DijkstraAlgorithm.Memento
                 id = n.id;
                 costValue = n.costValue;
                 searchState = n.searchState;
+                costValueCompare = n.costValueCompareTo;
             }
         }
     }

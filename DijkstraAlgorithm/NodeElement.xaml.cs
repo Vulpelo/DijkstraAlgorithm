@@ -3,15 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows;
-using System.Windows.Media.TextFormatting;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace DijkstraAlgorithm
 {
-    public class NodeElement
+    /// <summary>
+    /// Interaction logic for NodeElementRenderer.xaml
+    /// </summary>
+    public partial class NodeElement : UserControl
     {
+        public NodeElement()
+        {
+            InitializeComponent();
+        }
+
+        public float getWidthOrigin()
+        {
+            return 20;
+        }
+        public float getHeightOrigin()
+        {
+            return 40;
+        }
+
         System.Windows.Media.Brush startNodeBorderColor = System.Windows.Media.Brushes.LimeGreen;
         System.Windows.Media.Brush endNodeBorderColor = System.Windows.Media.Brushes.Red;
         System.Windows.Media.Brush normalNodeBorderColor = System.Windows.Media.Brushes.Gray;
@@ -20,44 +42,52 @@ namespace DijkstraAlgorithm
         System.Windows.Media.Brush actualNodeBgColor = System.Windows.Media.Brushes.LightBlue;
         System.Windows.Media.Brush notUsedNodeBgColor = System.Windows.Media.Brushes.Gray;
 
+        System.Windows.Media.Brush comparingNodeBgColor = System.Windows.Media.Brushes.LightGreen;
+
+        System.Windows.Media.Brush comparingNodeLabelColor = System.Windows.Media.Brushes.Gray;
+        System.Windows.Media.Brush notComparingNodeLabelColor = System.Windows.Media.Brushes.LightBlue;
+
+
         public Node node { get; private set; }
-        Button model = null;
 
         List<EdgeElement> edges = new List<EdgeElement>();
 
         public NodeElement(Node _node)
         {
+            InitializeComponent();
+
             node = _node;
+            SetValue(Canvas.LeftProperty, node.position.X - getWidthOrigin());
+            SetValue(Canvas.TopProperty, node.position.Y - getHeightOrigin());
 
-            model = new Button();
-            model.Click += nodeWasClicked;
-            model.Width = 40;
-            model.Height = 40;
-            model.SetValue(Canvas.LeftProperty, node.position.X - model.Width/2);
-            model.SetValue(Canvas.TopProperty, node.position.Y - model.Height/2);
-            model.Content = node.id.ToString();
-            model.BorderThickness = new Thickness(2);
+            this.button.Click += nodeWasClicked;
+            this.button.Content = node.id.ToString();
 
-            normalNodeBorderColor = model.BorderBrush;
-            notUsedNodeBgColor = model.Background;
+            this.label.Opacity = 0;
 
-            model.AllowDrop = true;
+            normalNodeBorderColor = this.button.BorderBrush;
+            notUsedNodeBgColor = this.button.Background;
         }
 
-        public Button getModel()
+        public void showLabel()
         {
-            return model;
+            this.label.Opacity = 100;
+        }
+
+        public void setInfo(string infoText)
+        {
+            this.label.Content = infoText;
         }
 
         public void addToCanvas(Canvas canvas)
         {
-            Canvas.SetZIndex(model, 0);
-            canvas.Children.Add(model);
+            Canvas.SetZIndex(this, 0);
+            canvas.Children.Add(this);
         }
 
         public void removeFromCanvas(Canvas canvas)
         {
-            Master.window.MainCanvas.Children.Remove(getModel());
+            Master.window.MainCanvas.Children.Remove(this);
         }
 
         public void nodeWasClicked(object sender, RoutedEventArgs e)
@@ -66,10 +96,12 @@ namespace DijkstraAlgorithm
             {
                 Master.creatingEdge(this);
 
-            } else if (Master.actualMode == Mode.REMOVE)
+            }
+            else if (Master.actualMode == Mode.REMOVE)
             {
                 destroy();
-            } else if (Master.actualMode == Mode.START_NODE)
+            }
+            else if (Master.actualMode == Mode.START_NODE)
             {
                 Master.window.resetStartNode();
                 setNodeType(NodeType.START);
@@ -90,7 +122,7 @@ namespace DijkstraAlgorithm
 
         public void addEdge(NodeElement toNode)
         {
-            if (!hasEdge(this, toNode))
+            if (!hasEdge(toNode))
             {
                 EdgeElement edge = new EdgeElement(this, toNode);
                 edge.createLineSegment(Master.window.MainCanvas);
@@ -101,9 +133,15 @@ namespace DijkstraAlgorithm
             }
         }
 
-        private bool hasEdge(NodeElement from, NodeElement to)
+        private bool hasEdge(NodeElement toNode)
         {
-            // TODO: has such edge this<->toNode
+            foreach (EdgeElement ee in this.edges)
+            {
+                if (ee.connectedTo(toNode) && ee.connectedTo(this))
+                {
+                    return true;
+                }
+            }
             return false;
         }
 
@@ -130,13 +168,13 @@ namespace DijkstraAlgorithm
             switch (type)
             {
                 case NodeType.START:
-                    getModel().BorderBrush = startNodeBorderColor;
+                    this.button.BorderBrush = startNodeBorderColor;
                     break;
                 case NodeType.NORMAL:
-                    getModel().BorderBrush = normalNodeBorderColor;
+                    this.button.BorderBrush = normalNodeBorderColor;
                     break;
                 case NodeType.END:
-                    getModel().BorderBrush = endNodeBorderColor;
+                    this.button.BorderBrush = endNodeBorderColor;
                     break;
             }
         }
@@ -152,21 +190,50 @@ namespace DijkstraAlgorithm
             switch (searchState)
             {
                 case NodeSearchState.ACTUAL:
-                    getModel().Background = actualNodeBgColor;
+                    this.button.Background = actualNodeBgColor;
                     break;
                 case NodeSearchState.NOT_USED:
-                    getModel().Background = notUsedNodeBgColor;
+                    this.button.Background = notUsedNodeBgColor;
                     break;
                 case NodeSearchState.USED:
-                    getModel().Background = usedNodeBgColor;
+                    this.button.Background = usedNodeBgColor;
                     break;
+                case NodeSearchState.COMPARING:
+                    this.button.Background = comparingNodeBgColor;
+                    break;
+            }
+            if (NodeSearchState.COMPARING == searchState)
+            {
+                this.label.Background = comparingNodeLabelColor;
+            } else
+            {
+                this.label.Background = notComparingNodeLabelColor;
             }
         }
 
         public void updateRenderChanges()
         {
+            showLabel();
             setNodeType(node.nodeType);
             setSearchState(node.searchState);
+
+            string valText = "";
+            if (node.costValue == int.MaxValue)
+            {
+                valText += "inf";
+            }
+            else
+            {
+                valText += node.costValue.ToString();
+            }
+
+            if (node.searchState == NodeSearchState.COMPARING)
+            {
+                setInfo(node.costValueCompareTo.ToString() + " < " + valText);
+            } else
+            {
+                setInfo(valText);
+            }
         }
     }
 }

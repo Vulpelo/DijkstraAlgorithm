@@ -39,11 +39,19 @@ namespace DijkstraAlgorithm
                     if (n.searchState == NodeSearchState.NOT_USED)
                     {
                         // calculate
-                        int newCost = actual.targets[n] + actual.costValue;
+                        int newCost = actual.targets[n] + (actual.costValue == int.MaxValue ? 0 : actual.costValue);
+
+                        n.searchState = NodeSearchState.COMPARING;
+                        n.costValueCompareTo = newCost;
+                        nodeCollection.savePhase(nodes);
+                        n.searchState = NodeSearchState.NOT_USED;
+
                         if (n.costValue > newCost)
                         {
                             n.costValue = newCost;
                         }
+
+                        nodeCollection.savePhase(nodes);
 
                         // select
                         if (bestNode == null || n.costValue < bestNode.costValue)
@@ -56,7 +64,8 @@ namespace DijkstraAlgorithm
                 if (bestNode == null) return;
                 actual = bestNode;
             }
-
+            actual.searchState = NodeSearchState.ACTUAL;
+            nodeCollection.savePhase(nodes);
 
         }
 
@@ -87,6 +96,7 @@ namespace DijkstraAlgorithm
                         nodes[i].id = newNode.id;
                         nodes[i].searchState = newNode.searchState;
                         nodes[i].costValue = newNode.costValue;
+                        nodes[i].costValueCompareTo = newNode.costValueCompareTo;
                     }
                 }
             }

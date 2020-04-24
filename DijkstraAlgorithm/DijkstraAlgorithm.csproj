@@ -73,10 +73,15 @@
     <Compile Include="EdgeCostTextBox.xaml.cs">
       <DependentUpon>EdgeCostTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GraphGenerator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NodeElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Master.cs" />
@@ -85,7 +90,10 @@
     <Compile Include="Memento\MementoState.cs" />
     <Compile Include="Memento\NodeState.cs" />
     <Compile Include="Node.cs" />
-    <Compile Include="NodeElement.cs" />
+    <Compile Include="NodeElementaa.cs" />
+    <Compile Include="NodeElement.xaml.cs">
+      <DependentUpon>NodeElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
