@@ -95,7 +95,6 @@ namespace DijkstraAlgorithm
             if (Master.actualMode == Mode.ADD_EDGE)
             {
                 Master.creatingEdge(this);
-
             }
             else if (Master.actualMode == Mode.REMOVE)
             {
@@ -125,11 +124,12 @@ namespace DijkstraAlgorithm
             if (!hasEdge(toNode))
             {
                 EdgeElement edge = new EdgeElement(this, toNode);
-                edge.createLineSegment(Master.window.MainCanvas);
                 edges.Add(edge);
 
                 toNode.addEdge(edge);
                 addEdge(edge);
+
+                edge.createLineSegment(Master.window.MainCanvas);
             }
         }
 

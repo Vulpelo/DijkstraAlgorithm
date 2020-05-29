@@ -24,6 +24,7 @@ namespace DijkstraAlgorithm
         public EdgeCostTextBox(EdgeElement edge)
         {
             this.edge = edge;
+            //edge.setEdgeCost(0);
             InitializeComponent();
         }
 
@@ -51,10 +52,7 @@ namespace DijkstraAlgorithm
                 if (cost < 0)
                     throw new FormatException();
 
-                edge.setEdgeCost(
-                    tb.Text.Length == 0 ?
-                    0 : int.Parse(tb.Text)
-                    );
+                edge.setEdgeCost(cost);
             } catch (FormatException ex)
             {
                 tb.Text = edge.getEdgeCost().ToString();

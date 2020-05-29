@@ -29,17 +29,11 @@ namespace DijkstraAlgorithm
         public NodeSearchState searchState { get; set; } = NodeSearchState.NOT_USED;
         public NodeType nodeType { get; set; } = NodeType.NORMAL;
 
-        static public void resetIDs()
-        {
-            _id = 0;
-        }
-
         public int costValue { get; set; } = int.MaxValue;
         public System.Windows.Point position { get; set; }
 
         public int costValueCompareTo { get; set; } = -1;
 
-        //public List<Node> targets { get; set; } = new List<Node>();
         public Dictionary<Node, int> targets { get; set; } = new Dictionary<Node, int>();
 
         public Node() {
@@ -54,6 +48,9 @@ namespace DijkstraAlgorithm
             id = _id++;
             this.position = position;
         }
-        
+        static public void resetIDs()
+        {
+            _id = 0;
+        }
     }
 }

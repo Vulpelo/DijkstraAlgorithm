@@ -90,7 +90,6 @@
     <Compile Include="Memento\MementoState.cs" />
     <Compile Include="Memento\NodeState.cs" />
     <Compile Include="Node.cs" />
-    <Compile Include="NodeElementaa.cs" />
     <Compile Include="NodeElement.xaml.cs">
       <DependentUpon>NodeElement.xaml</DependentUpon>
     </Compile>

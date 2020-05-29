@@ -84,7 +84,12 @@ namespace DijkstraAlgorithm
 
         public int getEdgeCost()
         {
-            return fromNodeElement.node.targets[toNodeElement.node];
+            int cost = 0;
+            if (!fromNodeElement.node.targets.TryGetValue(toNodeElement.node, out cost))
+            {
+                setEdgeCost(cost);
+            }
+            return cost;
         }
 
         public void destroy()
